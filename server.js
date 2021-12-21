@@ -52,8 +52,8 @@ function filterByQuery(query, animalsArray) {
       results = filterByQuery(req.query, results);
     }
     res.json(results);
-  })
+  });
 
 app.listen(PORT, () => {
     console.log(`API server is now on port ${PORT}!`);
-})
+});
