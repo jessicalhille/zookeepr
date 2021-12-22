@@ -7,6 +7,9 @@ const { animals } = require('./data/animals.json');
 const PORT = process.env.PORT || 3001;
 const app = express();
 
+// provides a file path to a location in our application(the public folder)
+// and instructs the server to make these files static resources
+app.use(express.static('public'));
 // parse incoming string or array data
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
@@ -115,6 +118,27 @@ app.post('/api/animals', (req, res) => {
     const animal = createNewAnimal(req.body, animals);
     res.json(animal);
   }
+});
+
+// brings us to the root route of the server, used to create a homepage for the server
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+// connects to animals.html
+app.get('/animals', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+// connects to zookeepers.html
+app.get('/zookeepers', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+// acts as a wildcard, meaning any route that is not defined will fall under this
+// user will then receive the homepage as the response (THIS ALWAYS COMES LAST)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 app.listen(PORT, () => {
